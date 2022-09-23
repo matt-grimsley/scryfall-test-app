@@ -32,9 +32,16 @@ export class DataService {
   //   }
   // }
 
-  getCard(): Observable<Card> {
+  getFirstCard(): Observable<Card> {
     return this.http.get<Card>(
       'https://api.scryfall.com/cards/' + this.mainset
+    );
+  }
+
+  fuzzySearch(searchValue: string): Observable<Card> {
+    let s = encodeURI(searchValue);
+    return this.http.get<Card>(
+      'https://api.scryfall.com/cards/named?fuzzy=' + s
     );
   }
 }
