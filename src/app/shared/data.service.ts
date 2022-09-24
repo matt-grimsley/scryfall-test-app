@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Card } from './card.model';
+import { CardInterface } from './card.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -32,15 +32,15 @@ export class DataService {
   //   }
   // }
 
-  getFirstCard(): Observable<Card> {
-    return this.http.get<Card>(
+  getFirstCard(): Observable<CardInterface> {
+    return this.http.get<CardInterface>(
       'https://api.scryfall.com/cards/' + this.mainset
     );
   }
 
-  fuzzySearch(searchValue: string): Observable<Card> {
+  fuzzySearch(searchValue: string): Observable<CardInterface> {
     let s = encodeURI(searchValue);
-    return this.http.get<Card>(
+    return this.http.get<CardInterface>(
       'https://api.scryfall.com/cards/named?fuzzy=' + s
     );
   }

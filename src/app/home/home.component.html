@@ -1,0 +1,28 @@
+<div class="container">
+  <div class="item">
+    <mat-card class="base-card">
+      <!-- <img mat-card-image [src]="baseCard.imagePath" alt="" /> -->
+      home works!
+    </mat-card>
+    <form>
+      <mat-form-field appearance="standard" class="form-input">
+        <mat-label>Add a card to the pile</mat-label>
+        <!-- <input
+          matInput
+          type="input"
+          [(ngModel)]="searchValue"
+          name="searchValue"          
+          (keyup.enter)="onSearch(searchValue)"      /> -->
+        <input
+          matInput
+          [(ngModel)]="searchValue"
+          name="searchValue"
+          (keyup.enter)="onSearch(searchValue)"
+        />
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="item">
+    <app-pile></app-pile>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Card, ImageUris } from '../card.model';
-import { DataService } from '../data.service';
+import { Card, CardInterface, ImageUris } from '../shared/card.model';
+import { DataService } from '../shared/data.service';
 
 @Component({
   selector: 'app-home',
@@ -9,35 +9,41 @@ import { DataService } from '../data.service';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  id: string = '';
-  imagePath: string = '';
-  name: string = '';
+  baseCard: Card;
+  Card: Card;
+
   dataSub: Subscription = new Subscription();
   searchValue: string = '';
 
   constructor(private data: DataService) {
-    console.log('In constructor, imagePath is: ' + this.imagePath + '...');
+    this.baseCard = new Card('', '', '');
+    this.Card = new Card('', '', '');
   }
 
   ngOnInit(): void {
-    console.log('In ngOnInit, imagePath is: ' + this.imagePath + '...');
     this.dataSub = this.data.getFirstCard().subscribe((data) => {
-      this.handleGetCard(data);
+      this.handleGetFirstCard(data);
     });
   }
 
-  handleGetCard(data: Card): void {
-    this.id = data.id;
+  handleGetCard(data: CardInterface): void {
+    this.Card.id = data.id;
     let image_uris = data.image_uris;
-    this.imagePath = image_uris['normal'];
-    this.name = data.name;
-    console.log('In handleGetCard()  imagePath is: ' + this.imagePath + '...');
+    this.Card.imagePath = image_uris['normal'];
+  }
+
+  handleGetFirstCard(data: CardInterface): void {
+    this.baseCard.id = data.id;
+    let image_uris = data.image_uris;
+    this.baseCard.imagePath = image_uris['normal'];
+    this.baseCard.name = data.name;
   }
 
   onSearch(searchValue: string): void {
     this.dataSub = this.data.fuzzySearch(searchValue).subscribe((card) => {
       this.handleGetCard(card);
     });
+    this.searchValue = '';
   }
 
   ngOnDestroy(): void {
